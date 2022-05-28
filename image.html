@@ -13,22 +13,20 @@
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
     <style>
-        body {
-            background-image: url(https://img.freepik.com/free-vector/vector-abstract-security-system-concept-with-fingerprint-technology-background_43778-497.jpg);
+       body {
+            background-image: url(BG.png);
             background-size: contain;
             background-attachment: fixed;
         }
+
 
         a {
             color: rgb(254, 251, 251);
             font-weight: bold;
             text-decoration: none;
-            
+
         }
 
-       #logout{
-           background-color: black;
-       }
 
         canvas {
             position: absolute;
@@ -36,7 +34,8 @@
             top: 0;
             left: 0;
         }
-        h3{
+
+        h3 {
             color: white;
         }
     </style>
@@ -58,6 +57,7 @@
         const firebaseConfig = {
             apiKey: "AIzaSyA9XI7bWC5PEeJE59gjd1mL6xgo39o9O2o",
             authDomain: "face-recognition-af75b.firebaseapp.com",
+            databaseURL: "https://face-recognition-af75b-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "face-recognition-af75b",
             storageBucket: "face-recognition-af75b.appspot.com",
             messagingSenderId: "65324606819",
@@ -87,7 +87,7 @@
 
 <body>
     <!--navbar-->
-    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+    <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Criminal Click</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
@@ -125,7 +125,7 @@
         <input type="file" class="form-control" id="imageUpload">
 
     </div>
-   
+
 
 
     <!-- JavaScript Bundle with Popper -->

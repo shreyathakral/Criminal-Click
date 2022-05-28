@@ -1,7 +1,7 @@
 Promise.all([
-    faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-    faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-    faceapi.nets.ssdMobilenetv1.loadFromUri('/models')
+    faceapi.nets.faceRecognitionNet.loadFromUri('./models'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
+    faceapi.nets.ssdMobilenetv1.loadFromUri('./models')
   ]).then(startVideo)
   
   async function startVideo() {
@@ -14,13 +14,15 @@ Promise.all([
     recognizeFaces()
   }
   
+  const people = []
   
   async function recognizeFaces() {
+    console.log("recogfaces started")
     const video = document.getElementById('video')
     const labeledFaceDescriptors = await loadLabeledImages()
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.5)
   
-  video.addEventListener('play', async () => {
+  video.addEventListener('playing', async () => {
     const canvas = faceapi.createCanvasFromMedia(video)
     document.body.append(canvas)
     const displaySize = { width: video.width, height: video.height }
@@ -33,42 +35,38 @@ Promise.all([
       faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
       const results = resizedDetections.map((d) => {return  faceMatcher.findBestMatch(d.descriptor)})
       results.forEach((result, i) => {
+  
         const box = resizedDetections[i].detection.box
         const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
-        const str = result.toString()
-  
-        // elem.innerHTML=str
-        // document.body.appendChild(elem)
-        var a = document.createElement('a');
-        var linkText = document.createTextNode(str);
-        a.appendChild(linkText);
-        a.title = str;
-        console.log(str)
-        const myarray = str.split(" ")
-      //   if(myarray[0] != "unknown")
-      //   alert("criminal here !!!!")
-      //   else
-      //   alert("no criminal")
-        
-        console.log(myarray[0])
-        a.href = `${myarray[0]}.html`;
-        document.body.appendChild(a);
-  
         drawBox.draw(canvas)
+  
+        const str = result.toString()
+          const myarray = str.split(" ")
+          
+              var a = document.createElement('a');
+              var linkText = document.createTextNode(str);
+              a.appendChild(linkText);
+              a.title = str;
+              if(myarray[0]!="unknown")
+              {
+              a.href = `${myarray[0]}.html`;
+              document.body.appendChild(a);
+              }
+          
+         
       })
     }, 100)
   })
   }
-  
-  
+  //document.getElementById('start').addEventListener('click',startVideo)
   function loadLabeledImages() {
-    const labels = ['deepika']
+      const labels =['Andre_Harris', 'Beck_Oliver', 'Cat_Valentine', 'Jade_West', 'Robbie_Shapiro', 'Tori_Vega','Shreya']
     
     return Promise.all(
       labels.map(async (label) => {
         const descriptions = []
         for (let i = 1; i <= 2; i++) {
-          const img = await faceapi.fetchImage(`${label}.jpg`)
+          const img = await faceapi.fetchImage(`../Images/${label}.jpg`)
           const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
           descriptions.push(detections.descriptor)
         }
@@ -77,3 +75,15 @@ Promise.all([
       })
     )
   }
+  
+  function stopwebcam(){
+    const video = document.getElementById('video')
+    navigator.getUserMedia(
+      { video: {} },
+      stream => video.srcObject = null,
+      err => console.error(err)
+    )
+  }
+  
+  
+  document.getElementById('stop').addEventListener('click',stopwebcam)
