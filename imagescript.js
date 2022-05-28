@@ -42,15 +42,16 @@ async function start() {
       console.log(str)
       const myarray = str.split(" ")
       console.log(myarray[0])
+      if(myarray[0]!="unknown"){
       a.href = `${myarray[0]}.html`;
-      document.body.appendChild(a);
+      document.body.appendChild(a);}
       drawBox.draw(canvas)
     })
   })
 }
 
 function loadLabeledImages() {
-  const labels = ['deepika','Shreya']
+  const labels = ['Andre_Harris', 'Shreya', 'Beck_Oliver', 'Cat_Valentine', 'Jade_West', 'Robbie_Shapiro', 'Tori_Vega']
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
@@ -64,3 +65,4 @@ function loadLabeledImages() {
     })
   )
 }
+
